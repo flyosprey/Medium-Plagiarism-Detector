@@ -1,0 +1,6 @@
+Django==1.11.11
+numpy==1.13.3
+random_user_agent==1.0.1
+requests==2.18.4
+scikit_learn==1.1.1
+gunicorn==20.1.0

@@ -1,0 +1,4 @@
+#!/home/vlad/Desktop/blog_plagiat_detector/venv/bin/python
+
+from splash.server import main
+main()

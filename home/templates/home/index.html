@@ -1,0 +1,117 @@
+<!doctype html>
+{% load static %}
+<html lang="en">
+  <head>
+  	<title>Plagiarism Detector</title>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+	<link href='https://fonts.googleapis.com/css?family=Roboto:400,100,300,700' rel='stylesheet' type='text/css'>
+
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
+	
+	<link rel="stylesheet" href="{% static 'home/css/style.css' %}">
+
+	</head>
+	<body>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-md-6 text-center mb-5">
+					<h2 class="heading-section">Plagiarism Detector in a Blog</h2>
+				</div>
+			</div>
+			<div class="row justify-content-center">
+				<div class="col-lg-10">
+					<div class="wrapper img" style="background-image: url('{% static 'home/media/img.jpg' %}')">
+						<div class="row">
+							<div class="col-md-9 col-lg-7">
+								<div class="contact-wrap w-100 p-md-5 p-4">
+									<h3 class="mb-4">Let's find a plagiarism in a blog</h3>
+									<p>Allowed sites:</p>
+									<ul><li>Medium.com</li></ul>
+									<div id="form-message-warning" class="mb-4"></div>
+				      				{% if messages %}
+										<br>
+										<p>Messages:</p>
+										<ul class="messages">
+											{% for message in messages %}
+												<li  class="{% if message.tags %} {{ message.tags }} {% endif %}"> {{ message }} </li>
+											{% endfor %}
+										</ul>
+									{% endif %}
+									<form action="" method="POST" id="contactForm" name="contactForm" class="contactForm">
+										{% csrf_token %}
+										<div class="row">
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="label">Site Name</label>
+													{{ form.site_name }}
+												</div>
+											</div>
+											<div class="col-md-6"> 
+												<div class="form-group">
+													<label class="label">Topic</label>
+													{{ form.topic }}
+												</div>
+											</div>
+											<div class="col-md-6">
+												<div class="form-group">
+													<label class="label">How many articles need to check? MIN 1 - MAX 900</label>
+													{{ form.number_of_articles }}
+												</div>
+											</div>
+											<div class="col-md-12">
+												<div class="form-group">
+													<input type="submit" value="Submit" class="btn btn-primary">
+													<div class="submitting"></div>
+												</div>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				{% if plagiarism_results.records == 0 %}
+					<h3>Plagiarism has not been found</h3>
+				{% endif %}
+			</div>
+		</div>
+		{% if plagiarism_results.results %}
+			<table class="flat-table">
+			  <tbody>
+				<tr>
+				  <th>Article name</th>
+				  <th>Compared article name</th>
+				  <th>Article link</th>
+				  <th>Compared article link</th>
+				  <th>Percent of plagiarism</th>
+				  <th>Article text</th>
+				  <th>Compared article text</th>
+				</tr>
+				{% for result in plagiarism_results.results %}
+					<tr>
+					  <td>{{ result.article_name }}</td>
+					  <td>{{ result.compared_article_name }}</td>
+					  <td>{{ result.article_link }}</td>
+					  <td>{{ result.compared_article_link }}</td>
+					  <td>{{ result.percent_of_plagiat }}</td>
+						<td>{{ result.compared_article_text }}</td>
+					  <td>{{ result.article_text }}</td>
+					</tr>
+				{% endfor %}
+			  </tbody>
+			</table>
+		{% endif %}
+	</section>
+
+	<script src="{% static 'home/js/jquery.min.js' %}"></script>
+  <script src="{% static 'home/js/popper.js' %}"></script>
+  <script src="{% static 'home/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'home/js/jquery.validate.min.js' %}"></script>
+
+	</body>
+</html>
+
